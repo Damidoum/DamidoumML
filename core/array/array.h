@@ -1,7 +1,8 @@
 #pragma once
-#include <iostream>
 #include "../utils/types.h"
 #include "buffer.h"
+#include <iostream>
+#include <vector>
 
 template <typename T>
 class Array
@@ -10,9 +11,10 @@ private:
   T *ptr_;
   Buffer<T> buffer_;
   size_t size_;
+  std::vector<int> stride;
 
 public:
-  Array() : ptr_(nullptr), buffer_(Buffer<T>()), size_(0) {};
+  Array() : ptr_(nullptr), buffer_(Buffer<T>()), size_(0), stride({0}) {};
   Array(size_t size) : ptr_(nullptr), buffer_(Buffer<T>(size)), size_(size)
   {
     ptr_ = buffer_.getPtr();
