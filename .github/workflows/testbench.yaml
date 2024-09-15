@@ -29,7 +29,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Install C++ build dependencies
-        run: brew install cmake clang-format cppcheck pybind11
+        run: brew install cmake pybind11 clang-format cppcheck
 
   formatting:
     runs-on: macos-latest
@@ -54,6 +54,9 @@ jobs:
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
+
+      - name: Install ClangFormat
+        run: brew install clang-format
 
       - name: Run Black (Python Formatter)
         run: black --check .
@@ -87,7 +90,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install C++ build dependencies
-        run: brew install cmake pybind11
+        run: brew install cmake pybind11 clang-format
 
       - name: Build the C++ extension
         run: |
