@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  setup:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install C++ build dependencies
+        run: brew install cmake clang-format cppcheck pybind11
+
+  formatting:
+    runs-on: macos-latest
+    needs: setup # Ce job dépend du job "setup"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run Black (Python Formatter)
+        run: black --check .
+
+      - name: Run Flake8 (Python Linter)
+        run: flake8 --exclude=.venv,build .
+
+      - name: Run ClangFormat (C++ Formatter)
+        run: find core -type f \( -name "*.cpp" -o -name "*.h" \) -exec clang-format -i {} +
+
+  linting:
+    runs-on: macos-latest
+    needs: setup # Ce job dépend du job "setup"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run Cppcheck (C++ Linter)
+        run: cppcheck core/
+
+  build:
+    runs-on: macos-latest
+    needs: setup # Ce job dépend du job "setup"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build the C++ extension
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+          cmake --build .
+
+  tests:
+    runs-on: macos-latest
+    needs: build # Ce job dépend du job "build"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run Python tests
+        run: pytest tests/
