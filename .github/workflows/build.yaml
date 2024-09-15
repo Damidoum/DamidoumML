@@ -1,0 +1,37 @@
+name: Build and Test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        python-version: [3.11, 3.12]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies (Python)
+        run: pip install -r requirements.txt
+
+      - name: Install C++ build dependencies
+        run: brew install cmake clang-format cppcheck pybind11
+
+      - name: Build the C++ extension
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+          cmake --build .
+
+      - name: Run Python tests
+        run: pytest tests/

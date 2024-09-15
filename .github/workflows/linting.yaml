@@ -1,0 +1,19 @@
+name: Code Linting
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install C++ build dependencies
+        run: brew install cppcheck
+
+      - name: Run Cppcheck (C++ Linter)
+        run: cppcheck core/
