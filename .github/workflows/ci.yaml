@@ -9,7 +9,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        python-version: [3.10, 3.11, 3.12]
+        python-version: [3.11, 3.12]
 
     steps:
       - name: Checkout repository
@@ -24,19 +24,19 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Install C++ build dependencies
-        run: brew install cmake clang-format cppcheck # Installer des outils pour C++
+        run: brew install cmake clang-format cppcheck
 
       - name: Run Black (Python Formatter)
-        run: black --check . # Vérifie si le code Python est bien formaté
+        run: black --check .
 
       - name: Run Flake8 (Python Linter)
-        run: flake8 --exclude=.venv,build . # Exécute le linting pour Python
+        run: flake8 --exclude=.venv,build .
 
       - name: Run ClangFormat (C++ Formatter)
         run: find core -type f \( -name "*.cpp" -o -name "*.h" \) -exec clang-format -i {} + # Formate les fichiers C++
 
       - name: Run Cppcheck (C++ Linter)
-        run: cppcheck core/ # Exécute le linting pour C++
+        run: cppcheck core/
 
       - name: Build the C++ extension
         run: |
