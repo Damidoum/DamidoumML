@@ -1,0 +1,127 @@
+name: Setup and Test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  setup:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.12
+
+      - name: Cache Python packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install C++ build dependencies
+        run: brew install cmake pybind11 clang-format cppcheck
+
+  formatting:
+    runs-on: macos-latest
+    needs: setup
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.12
+
+      - name: Cache Python packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install ClangFormat
+        run: brew install clang-format
+
+      - name: Run Black (Python Formatter)
+        run: black --check .
+
+      - name: Run Flake8 (Python Linter)
+        run: flake8 --exclude=.venv,build .
+
+      - name: Run ClangFormat (C++ Formatter)
+        run: find core -type f \( -name "*.cpp" -o -name "*.h" \) -exec clang-format -i {} +
+
+  linting:
+    runs-on: macos-latest
+    needs: setup
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install C++ build dependencies
+        run: brew install cppcheck
+
+      - name: Run Cppcheck (C++ Linter)
+        run: cppcheck core/
+
+  build:
+    runs-on: macos-latest
+    needs: setup
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install C++ build dependencies
+        run: brew install cmake pybind11 clang-format
+
+      - name: Build the C++ extension
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+          cmake --build .
+
+  tests:
+    runs-on: macos-latest
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.12
+
+      - name: Cache Python packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Python tests
+        run: pytest tests/

@@ -1,0 +1,38 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/psf/black
+    rev: 24.8.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.1.1
+    hooks:
+      - id: flake8
+        args: ["--max-line-length=88"]
+
+  - repo: local
+    hooks:
+      - id: clang-format
+        name: ClangFormat
+        entry: find core -type f \( -name "*.cpp" -o -name "*.h" \) -exec clang-format -i {} +
+        language: system
+        pass_filenames: false
+
+      - id: cppcheck
+        name: Cppcheck
+        entry: cppcheck core/
+        language: system
+        pass_filenames: false
+
+      - id: run-tests-before-commit
+        name: Run Tests Before Commit
+        entry: pytest
+        language: system
+        pass_filenames: false
+        always_run: true

@@ -1,6 +1,8 @@
-#include "../core/array/array.h"
-#include <iostream>
 #include <unistd.h>
+
+#include <iostream>
+
+#include "../core/array/array.h"
 int main() {
   {
     Array<int> array(10);

@@ -1,15 +1,15 @@
 #pragma once
-#include "../utils/types.h"
 #include <iostream>
 
+#include "../utils/types.h"
+
 template <typename T>
-class Buffer
-{
-private:
+class Buffer {
+ private:
   T *ptr_;
   size_t size_;
 
-public:
+ public:
   Buffer() : ptr_(nullptr), size_(0) {};
   Buffer(size_t size) : ptr_(new T[size]), size_(size) {};
   ~Buffer();
@@ -18,17 +18,14 @@ public:
 };
 
 template <typename T>
-Buffer<T>::~Buffer()
-{
+Buffer<T>::~Buffer() {
   delete[] ptr_;
   std::cout << "Buffer deleted" << std::endl;
 }
 
 template <typename T>
-void Buffer<T>::allocate(size_t size)
-{
-  if (size < size_)
-  {
+void Buffer<T>::allocate(size_t size) {
+  if (size < size_) {
     return;
   }
   delete[] ptr_;
