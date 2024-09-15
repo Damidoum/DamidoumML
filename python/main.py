@@ -1,11 +1,11 @@
 import sys
+import libpy_array as daml
 
 sys.path.append("../build/lib")
 
-from libpy_array import *
 
 if __name__ == "__main__":
-    array1 = Array()
-    array2 = Array(2)
-    array3 = Array(2.2)
+    array1 = daml.Array()
+    array2 = daml.Array(2)
+    array3 = daml.Array(2.2)
     print(array1)

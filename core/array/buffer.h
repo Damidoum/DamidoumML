@@ -2,9 +2,7 @@
 #include "../utils/types.h"
 #include <iostream>
 
-template <typename T>
-class Buffer
-{
+template <typename T> class Buffer {
 private:
   T *ptr_;
   size_t size_;
@@ -17,18 +15,13 @@ public:
   T *getPtr() { return ptr_; }
 };
 
-template <typename T>
-Buffer<T>::~Buffer()
-{
+template <typename T> Buffer<T>::~Buffer() {
   delete[] ptr_;
   std::cout << "Buffer deleted" << std::endl;
 }
 
-template <typename T>
-void Buffer<T>::allocate(size_t size)
-{
-  if (size < size_)
-  {
+template <typename T> void Buffer<T>::allocate(size_t size) {
+  if (size < size_) {
     return;
   }
   delete[] ptr_;
