@@ -24,7 +24,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Install C++ build dependencies
-        run: brew install cmake clang-format cppcheck
+        run: brew install cmake clang-format cppcheck pybind11
 
       - name: Run Black (Python Formatter)
         run: black --check .
