@@ -1,11 +1,8 @@
 import sys
-import libpy_array as daml
 
-sys.path.append("../build/lib")
+sys.path.append("/Users/damidoum/Desktop/DamidoumML/build/lib")
+import damidoumPyML as daml
 
 
 if __name__ == "__main__":
-    array1 = daml.Array()
-    array2 = daml.Array(2)
-    array3 = daml.Array(2.2)
-    print(array1)
+    a = daml.Array()

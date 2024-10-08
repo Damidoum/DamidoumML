@@ -1,30 +1,40 @@
 #pragma once
-#include <iostream>
 #include <vector>
 
-#include "../utils/types.h"
 #include "buffer.h"
-
-template <typename T>
+#include "types.h"
+class ArrayData {
+ public:
+  void* ptr_;
+  size_t size_;
+  std::vector<int> shape_;
+  std::vector<int> strides_;
+  Dtype dtype_;  // data type of the array
+  ArrayData() : ptr_(nullptr), size_(0), shape_({}), strides_({}) {};
+  template <typename T>
+  ArrayData(size_t size, std::vector<int> shape, std::vector<int> strides,
+            Dtype dtype);
+  ~ArrayData() = default;
+};
 class Array {
  private:
-  T *ptr_;
-  Buffer<T> buffer_;
-  size_t size_;
-  std::vector<int> stride;
+  Buffer buffer_;
 
  public:
-  Array() : ptr_(nullptr), buffer_(Buffer<T>()), size_(0), stride({0}) {};
-  Array(size_t size) : ptr_(nullptr), buffer_(Buffer<T>(size)), size_(size) {
-    ptr_ = buffer_.getPtr();
-  };
-  void change_element(T element, int index);
+  ArrayData data_;
+  Array();
+  ~Array() = default;
+  template <typename T>
+  T* getPtr() {
+    return static_cast<T*>(data_.ptr_);
+  }
 };
 
 template <typename T>
-void Array<T>::change_element(T element, int index) {
-  if (index >= size_) {
-    throw std::out_of_range("Index out of range");
-  }
-  buffer_.getPtr()[index] = element;
-}
+ArrayData::ArrayData(size_t size, std::vector<int> shape,
+                     std::vector<int> strides, Dtype dtype)
+    : ptr_(nullptr),
+      size_(size),
+      shape_(shape),
+      strides_(strides),
+      dtype_(dtype){};
