@@ -1,7 +1,6 @@
 black==24.8.0
 cfgv==3.4.0
 click==8.1.7
-damidoumPyML @ file:///Users/damidoum/Desktop/DamidoumML
 distlib==0.3.8
 exceptiongroup==1.2.2
 filelock==3.16.0
