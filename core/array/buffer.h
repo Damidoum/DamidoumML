@@ -1,34 +1,16 @@
 #pragma once
-#include <iostream>
+#include "core/utils/types.h"
 
-#include "../utils/types.h"
-
-template <typename T>
 class Buffer {
  private:
-  T *ptr_;
+  void* ptr_;
   size_t size_;
 
  public:
   Buffer() : ptr_(nullptr), size_(0) {};
-  Buffer(size_t size) : ptr_(new T[size]), size_(size) {};
-  ~Buffer();
-  void allocate(size_t size);
-  T *getPtr() { return ptr_; }
+  Buffer(size_t size);
+  ~Buffer() { free(); };
+  void* getPtr() { return ptr_; }
+  void malloc(size_t size);
+  void free();
 };
-
-template <typename T>
-Buffer<T>::~Buffer() {
-  delete[] ptr_;
-  std::cout << "Buffer deleted" << std::endl;
-}
-
-template <typename T>
-void Buffer<T>::allocate(size_t size) {
-  if (size < size_) {
-    return;
-  }
-  delete[] ptr_;
-  ptr_ = new T[size];
-  size_ = size;
-}
