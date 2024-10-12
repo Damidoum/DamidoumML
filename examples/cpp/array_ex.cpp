@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "array.h"
+#include "core/array/array.h"
 
 int main(int argc, char **argv) {
   Array arr;

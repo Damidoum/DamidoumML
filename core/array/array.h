@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 
-#include "buffer.h"
-#include "types.h"
+#include "core/array/buffer.h"
+#include "core/utils/types.h"
 class ArrayData {
  public:
   void* ptr_;

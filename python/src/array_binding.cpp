@@ -1,6 +1,6 @@
 #include <pybind11/pybind11.h>
 
-#include "array.h"
+#include "core/array/array.h"
 
 namespace py = pybind11;
 

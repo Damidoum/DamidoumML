@@ -1,4 +1,4 @@
-#include <buffer.h>
+#include <core/array/buffer.h>
 
 #include <iostream>
 
