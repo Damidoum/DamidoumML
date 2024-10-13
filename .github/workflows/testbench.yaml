@@ -132,7 +132,7 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install C++ build dependencies
-        run: brew install cmake pybind11 clang-forma
+        run: brew install cmake pybind11 clang-format
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
