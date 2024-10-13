@@ -92,6 +92,17 @@ jobs:
       - name: Install C++ build dependencies
         run: brew install cmake pybind11 clang-format
 
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.12
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build Python extension
+        run: pip install .
+
       - name: Build the C++ extension
         run: |
           mkdir -p build
@@ -120,8 +131,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
+      - name: Install C++ build dependencies
+        run: brew install cmake pybind11 clang-format
+
       - name: Install Python dependencies
         run: pip install -r requirements.txt
+
+      - name: Build Python extension
+        run: pip install .
 
       - name: Run Python tests
         run: pytest tests/
