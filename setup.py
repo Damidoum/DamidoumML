@@ -87,7 +87,7 @@ setup(
     description="A personal machine learning library to learn cpp,"
     "cmake and python packaging.",
     long_description="",
-    licence="MIT",
+    license="MIT",
     ext_modules=[CMakeExtension("damidoumPyML")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,

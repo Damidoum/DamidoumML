@@ -131,6 +131,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
+      - name: Install C++ build dependencies
+        run: brew install cmake pybind11 clang-forma
+
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
