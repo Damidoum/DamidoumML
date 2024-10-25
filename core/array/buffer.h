@@ -12,5 +12,6 @@ class Buffer {
   ~Buffer() { free(); };
   void* getPtr() { return ptr_; }
   void malloc(size_t size);
+  void copy(void* ptr, size_t size);
   void free();
 };
