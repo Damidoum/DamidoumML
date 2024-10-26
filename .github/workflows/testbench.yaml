@@ -123,22 +123,23 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Cache Python packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+      - name: Create virtual environment
+        run: python -m venv .venv
 
       - name: Install C++ build dependencies
         run: brew install cmake pybind11 clang-format
 
       - name: Install Python dependencies
-        run: pip install -r requirements.txt
+        run: |
+          source .venv/bin/activate
+          pip install -r requirements.txt
 
       - name: Build Python extension
-        run: pip install .
+        run: |
+          source .venv/bin/activate
+          pip install .
 
       - name: Run Python tests
-        run: pytest tests/
+        run: |
+          source .venv/bin/activate
+          pytest tests/
