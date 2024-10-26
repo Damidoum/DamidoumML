@@ -1,4 +1,4 @@
-name: Setup and Test
+name: Setup, Build, Lint, and Test
 
 on:
   push:
@@ -7,7 +7,8 @@ on:
 jobs:
   setup:
     runs-on: macos-latest
-
+    outputs:
+      cache-hit: ${{ steps.cache-dependencies.outputs.cache-hit }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -17,21 +18,24 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Cache Python packages
+      - name: Cache dependencies
+        id: cache-dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          path: |
+            ~/.cache/pip
+            /usr/local/Homebrew/Library/Homebrew/vendor/bundle/ruby/2.6.0
+          key: ${{ runner.os }}-cache-${{ hashFiles('requirements.txt') }}
 
       - name: Install Python dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: pip install -r requirements.txt
 
       - name: Install C++ build dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: brew install cmake pybind11 clang-format cppcheck
 
-  formatting:
+  build:
     runs-on: macos-latest
     needs: setup
 
@@ -39,24 +43,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.12
+      - name: Build the C++ extension
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+          cmake --build .
 
-      - name: Cache Python packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+  lint:
+    runs-on: macos-latest
+    needs: setup
 
-      - name: Install Python dependencies
-        run: pip install -r requirements.txt
-
-      - name: Install ClangFormat
-        run: brew install clang-format
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Run Black (Python Formatter)
         run: black --check .
@@ -67,78 +67,16 @@ jobs:
       - name: Run ClangFormat (C++ Formatter)
         run: find core -type f \( -name "*.cpp" -o -name "*.h" \) -exec clang-format -i {} +
 
-  linting:
-    runs-on: macos-latest
-    needs: setup
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Install C++ build dependencies
-        run: brew install cppcheck
-
       - name: Run Cppcheck (C++ Linter)
         run: cppcheck core/
 
-  build:
+  test:
     runs-on: macos-latest
-    needs: setup
+    needs: [setup, build]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Install C++ build dependencies
-        run: brew install cmake pybind11 clang-format
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.12
-
-      - name: Install Python dependencies
-        run: pip install -r requirements.txt
-
-      - name: Build Python extension
-        run: pip install .
-
-      - name: Build the C++ extension
-        run: |
-          mkdir -p build
-          cd build
-          cmake ..
-          cmake --build .
-
-  tests:
-    runs-on: macos-latest
-    needs: build
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.12
-
-      - name: Cache Python packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Install C++ build dependencies
-        run: brew install cmake pybind11 clang-format
-
-      - name: Install Python dependencies
-        run: pip install -r requirements.txt
-
-      - name: Build Python extension
-        run: pip install .
 
       - name: Run Python tests
         run: pytest tests/
