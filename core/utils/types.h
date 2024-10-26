@@ -4,6 +4,7 @@
 typedef unsigned long size_t;
 
 struct Dtype {
+ private:
   size_t size_;  // number of bytes
   std::string name_;
 

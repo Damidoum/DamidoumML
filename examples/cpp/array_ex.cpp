@@ -3,7 +3,6 @@
 #include "core/array/array.h"
 
 int main(int argc, char **argv) {
-  Array arr;
-  std::cout << arr.getPtr<int>() << std::endl;
+  { Array arr2 = ones({2, 5}); }
   return 0;
 }

@@ -1,40 +1,62 @@
 #pragma once
+#include <iostream>
 #include <vector>
 
 #include "core/array/buffer.h"
 #include "core/utils/types.h"
+
 class ArrayData {
- public:
-  void* ptr_;
-  size_t size_;
+  /* class containing array caracteristics*/
+ private:
+  size_t size_;  // readonly parameter
   std::vector<int> shape_;
-  std::vector<int> strides_;
   Dtype dtype_;  // data type of the array
-  ArrayData() : ptr_(nullptr), size_(0), shape_({}), strides_({}) {};
-  template <typename T>
-  ArrayData(size_t size, std::vector<int> shape, std::vector<int> strides,
-            Dtype dtype);
+  void setShape(std::vector<int> shape);
+  void setSize();
+
+ public:
+  ArrayData();
+  ArrayData(std::vector<int> shape, Dtype dtype);
+  std::vector<int> getShape();
+  size_t getSize();
+  Dtype getDtype();
   ~ArrayData() = default;
 };
 class Array {
+  /* Array class composed of a Buffer and an ArrayData*/
  private:
-  Buffer buffer_;
+  std::shared_ptr<Buffer>
+      buffer_;  // shared pointer to share memory between arrays (view)
+  std::shared_ptr<ArrayData> data_;
 
  public:
-  ArrayData data_;
   Array();
+
+  template <typename T>
+  Array(T value, std::vector<int> shape, Dtype dtype = typeToDtype<T>());
+
   ~Array() = default;
+
   template <typename T>
   T* getPtr() {
-    return static_cast<T*>(data_.ptr_);
+    return static_cast<T*>(buffer_->getPtr());
   }
+
+  std::vector<int> shape() { return data_->getShape(); }
+  size_t size() { return data_->getSize(); }
+  std::string dtype() { return data_->getDtype().getName(); }
 };
 
 template <typename T>
-ArrayData::ArrayData(size_t size, std::vector<int> shape,
-                     std::vector<int> strides, Dtype dtype)
-    : ptr_(nullptr),
-      size_(size),
-      shape_(shape),
-      strides_(strides),
-      dtype_(dtype){};
+Array::Array(T value, std::vector<int> shape,
+             Dtype dtype /* = tyeToDtype<T>()*/)
+    : data_(std::make_shared<ArrayData>(shape, dtype)) {
+  buffer_ = std::make_shared<Buffer>(data_->getSize() * sizeof(T));
+  T* ptr = getPtr<T>();
+  for (int i = 0; i < data_->getSize(); i++) {
+    ptr[i] = value;
+  }
+}
+
+Array zeros(std::vector<int> shape);  // create an array of zeros
+Array ones(std::vector<int> shape);   // create an array of ones
