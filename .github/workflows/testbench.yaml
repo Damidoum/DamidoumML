@@ -137,9 +137,12 @@ jobs:
       - name: Build Python extension
         run: |
           source .venv/bin/activate
+          pip list
           pip install .
 
       - name: Run Python tests
         run: |
           source .venv/bin/activate
+          pip list
+          which pytest
           pytest tests/
