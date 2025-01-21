@@ -1,6 +1,6 @@
 [build-system]
-requires = ["scikit-build-core", "pybind11"]
-build-backend = "scikit_build_core.build_meta"
+requires = ["scikit-build-core>=0.10", "pybind11"]
+build-backend = "scikit_build_core.build"
 
 [project]
 name = "damidoumPyML"
@@ -10,6 +10,5 @@ readme = "README.md"
 author = [
   { name="Damidoum", email = "damien.rouchouse@etu.minesparis.psl.eu"}
 ]
-requires-python = ">=3.9"
-license = "MIT"
-license-file = "LICENSE"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
