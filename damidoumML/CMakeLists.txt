@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.15)
+project(DamidoumMLCore)
+file(GLOB SRC_FILES "*.cpp")
+add_library(DamidoumMLCore STATIC ${SRC_FILES})
+target_include_directories(DamidoumMLCore PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

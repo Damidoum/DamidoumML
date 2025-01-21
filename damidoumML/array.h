@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 
-#include "core/array/buffer.h"
-#include "core/utils/types.h"
+#include "damidoumML/buffer.h"
+#include "damidoumML/types.h"
 class ArrayData {
  public:
   void* ptr_;
@@ -10,7 +10,7 @@ class ArrayData {
   std::vector<int> shape_;
   std::vector<int> strides_;
   Dtype dtype_;  // data type of the array
-  ArrayData() : ptr_(nullptr), size_(0), shape_({}), strides_({}) {};
+  ArrayData() : ptr_(nullptr), size_(0), shape_({}), strides_({}){};
   template <typename T>
   ArrayData(size_t size, std::vector<int> shape, std::vector<int> strides,
             Dtype dtype);

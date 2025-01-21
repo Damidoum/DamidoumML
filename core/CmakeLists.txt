@@ -1,6 +1,0 @@
-cmake_minimum_required(VERSION 3.10)
-project(DamidoumMLCore)
-add_subdirectory(array)
-add_subdirectory(utils)
-add_library(DamidoumMLCore INTERFACE)
-target_link_libraries(DamidoumMLCore INTERFACE array_core) # only contains array for now

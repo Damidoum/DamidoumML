@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "core/array/array.h"
+#include "damidoumML/array.h"
 
 int main(int argc, char **argv) {
   Array arr;

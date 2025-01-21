@@ -1,5 +1,5 @@
 #pragma once
-#include "core/utils/types.h"
+#include "damidoumML/types.h"
 
 class Buffer {
  private:
@@ -7,7 +7,7 @@ class Buffer {
   size_t size_;
 
  public:
-  Buffer() : ptr_(nullptr), size_(0) {};
+  Buffer() : ptr_(nullptr), size_(0){};
   Buffer(size_t size);
   ~Buffer() { free(); };
   void* getPtr() { return ptr_; }

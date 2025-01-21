@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.15)
 project(DamidoumML)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -7,6 +7,5 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}) # include the root directory
 
-add_subdirectory(core)
+add_subdirectory(damidoumML)
 add_subdirectory(examples/cpp)
-add_subdirectory(python/src)

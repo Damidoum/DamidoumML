@@ -1,8 +1,9 @@
-cmake_minimum_required(VERSION 3.10)
-project(damidoumPyML)
+cmake_minimum_required(VERSION 3.15...3.27)
+project(${SKBUILD_PROJECT_NAME})
 
-find_package(Python REQUIRED COMPONENTS Interpreter Development)
-find_package(pybind11 REQUIRED)
+find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
+find_package(pybind11 CONFIG REQUIRED)
 
-pybind11_add_module(damidoumPyML array_binding.cpp)
-target_link_libraries(damidoumPyML PRIVATE DamidoumMLCore)
+python_add_library(_array MODULE array.cpp)
+target_link_libraries(_array PRIVATE pybind11::headers)
+install(TARGETS _core DESTINATION ${SKBUILD_PROJECT_NAME})
