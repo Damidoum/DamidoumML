@@ -1,15 +1,3 @@
-try:
-    from . import _core
-except ImportError as e:
-    raise ImportError(f"Failed to import _core module: {e}")
+from damidoumPyML.array import Array, ones, zeros
 
-
-class array(_core.Array):
-    def to_list(self) -> list[float]:
-        values = []
-        for i in range(len(self)):
-            values.append(self[i])
-        return values
-
-    def __repr__(self) -> str:
-        return f"array({self.to_list()})"
+__all__ = ["Array", "zeros", "ones"]

@@ -26,3 +26,6 @@ class Array {
 
   float &operator[](size_t index);
 };
+
+Array zeros(size_t size);
+Array ones(size_t size);

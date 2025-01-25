@@ -33,3 +33,7 @@ float &Array::operator[](size_t index) {
   }
   return getPtr()[index];
 }
+
+/* ------------ Other constructors ---------- */
+Array zeros(size_t size) { return Array(0.f, size); }
+Array ones(size_t size) { return Array(1.f, size); }

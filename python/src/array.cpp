@@ -4,6 +4,7 @@
 #include <pybind11/stl.h>
 
 #include "damidoumML/types.h"
+int test_fun(int a) { return a; }
 
 namespace py = pybind11;
 PYBIND11_MODULE(_core, m) {
