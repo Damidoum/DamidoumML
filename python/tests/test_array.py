@@ -8,6 +8,22 @@ def test_array_value_init():
     assert len(array) == 14
 
 
+def test_get_item():
+    length = 10
+    array = daml.array(-1, length)
+    for i in range(length):
+        array[i] = -1
+
+
+def test_set_item():
+    length = 10
+    array = daml.array(-1, length)
+    for i in range(length):
+        array[i] = i
+    for i in range(length):
+        assert array[i] == i
+
+
 """
 def test_zeros():
     shape = [2, 2]

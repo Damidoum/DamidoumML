@@ -1,6 +1,7 @@
 #include "damidoumML/array.h"
 
 #include <iostream>
+#include <stdexcept>
 
 /* ------------ ArrayMetaData -------- */
 ArrayMetaData::ArrayMetaData(size_t size) : size_(size) {
@@ -24,4 +25,11 @@ int Array::length() {
     length *= e;
   }
   return length;
+}
+
+float &Array::operator[](size_t index) {
+  if (index > metaData_.size_ - 1 || index < 0) {
+    throw std::out_of_range("Index out of range");
+  }
+  return getPtr()[index];
 }

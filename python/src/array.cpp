@@ -12,5 +12,8 @@ PYBIND11_MODULE(_core, m) {
       .def(py::init<float, size_t>())
       .def("shape", &Array::shape, "Get the shape of the array")
       .def("dim", &Array::dim, "Return the dim of the array")
-      .def("__len__", &Array::length);
+      .def("__len__", &Array::length)
+      .def("__getitem__", &Array::operator[])
+      .def("__setitem__",
+           [](Array& self, int index, float value) { self[index] = value; });
 }

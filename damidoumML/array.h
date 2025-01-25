@@ -23,4 +23,6 @@ class Array {
   std::vector<int> shape();
   int dim();
   int length();
+
+  float &operator[](size_t index);
 };

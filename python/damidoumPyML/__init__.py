@@ -3,4 +3,13 @@ try:
 except ImportError as e:
     raise ImportError(f"Failed to import _core module: {e}")
 
-array = _core.Array
+
+class array(_core.Array):
+    def to_list(self) -> list[float]:
+        values = []
+        for i in range(len(self)):
+            values.append(self[i])
+        return values
+
+    def __repr__(self) -> str:
+        return f"array({self.to_list()})"
