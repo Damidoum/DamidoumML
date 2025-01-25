@@ -7,7 +7,7 @@ Currently, I am developing on macOS, and the library is not yet accessible on ot
 ## How to Install the Python Wrapper
 
 1. Clone the repository
-2. Create a virtual environment using Python 3.12 or higher:
+2. Create a virtual environment using Python 3.10 or higher:
    ```bash
    python3.12 -m venv .venv
    ```
