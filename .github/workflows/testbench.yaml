@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: 3.10
+          python-version: "3.10"
 
       - name: Cache Python packages
         uses: actions/cache@v2
@@ -42,7 +42,7 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: 3.10
+          python-version: "3.10"
 
       - name: Cache Python packages
         uses: actions/cache@v2
@@ -95,7 +95,7 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: 3.10
+          python-version: "3.10"
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
@@ -121,7 +121,7 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: 3.10
+          python-version: "3.10"
 
       - name: Create virtual environment
         run: python -m venv .venv
