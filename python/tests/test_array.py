@@ -2,17 +2,10 @@ import damidoumPyML as daml
 import pytest
 
 
-def test_array_creation():
-    arr_default = daml.array()
-    assert arr_default.shape == [0]
-    assert arr_default.size == 0
-    assert arr_default.dtype == "float"
-
-    shape = [2, 3]
-    arr_float = daml.array(1.0, shape)
-    assert arr_float.shape == [2, 3]
-    assert arr_float.size == 6
-    assert arr_float.dtype == "float"
+def test_array_value_init():
+    array = daml.array(10, 14)
+    assert array.shape() == [14]
+    assert len(array) == 14
 
 
 """

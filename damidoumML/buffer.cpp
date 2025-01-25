@@ -2,23 +2,33 @@
 
 #include <iostream>
 
-void Buffer::free() {
-  if (ptr_ != nullptr) {
-    std::free(ptr_);
-    ptr_ = nullptr;
-  }
-}
+/* --------- constructors --------- */
+Buffer::Buffer() : ptr_(nullptr), size_(0) {}
 
+Buffer::Buffer(size_t size) : ptr_(new float[size]), size_(size) {}
+
+/* --------- destructor --------- */
+Buffer::~Buffer() { free(); };
+
+/* ---------- Getter ------------ */
+float *Buffer::getPtr() { return ptr_; }
+
+/* --------- Allocation operations --------- */
 void Buffer::malloc(size_t size) {
   if (size_ > size) {
-    return;
+    return;  // already enough memory slots allocated
   }
   Buffer::free();
-  ptr_ = std::malloc(2 * size);
+  ptr_ = new float[2 * size];
   if (ptr_ == nullptr) {
     std::cerr << "Failed to allocate memory" << std::endl;
     return;
   }
 }
 
-Buffer::Buffer(size_t size) : ptr_(nullptr), size_(size) { malloc(size); }
+void Buffer::free() {
+  if (ptr_ != nullptr) {
+    delete[] ptr_;
+    ptr_ = nullptr;
+  }
+}

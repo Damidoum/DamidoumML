@@ -3,7 +3,7 @@
 #include "damidoumML/array.h"
 
 int main(int argc, char **argv) {
-  Array arr;
-  std::cout << arr.getPtr<int>() << std::endl;
+  Array arr(0, 10);
+  std::cout << arr.getPtr() << std::endl;
   return 0;
 }

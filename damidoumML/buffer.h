@@ -2,15 +2,19 @@
 #include "damidoumML/types.h"
 
 class Buffer {
+  /* Buffer class handle the allocation of memory for the array
+    This currently suppport only float
+  */
+
  private:
-  void* ptr_;
+  float* ptr_;
   size_t size_;
 
  public:
-  Buffer() : ptr_(nullptr), size_(0){};
-  Buffer(size_t size);
-  ~Buffer() { free(); };
-  void* getPtr() { return ptr_; }
-  void malloc(size_t size);
-  void free();
+  Buffer();                  // default constructor
+  Buffer(size_t size);       // constructor with a size;
+  ~Buffer();                 // destructor
+  float* getPtr();           // get the pointer that point to the data
+  void malloc(size_t size);  // alloc new memory
+  void free();               // free current space
 };

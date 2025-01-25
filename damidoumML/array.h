@@ -3,38 +3,24 @@
 
 #include "damidoumML/buffer.h"
 #include "damidoumML/types.h"
-class ArrayData {
+
+struct ArrayMetaData {
  public:
-  void* ptr_;
-  size_t size_;
+  int size_;
   std::vector<int> shape_;
-  std::vector<int> strides_;
-  Dtype dtype_;  // data type of the array
-  ArrayData() : ptr_(nullptr), size_(0), shape_({}), strides_({}){};
-  template <typename T>
-  ArrayData(size_t size, std::vector<int> shape, std::vector<int> strides,
-            Dtype dtype);
-  ~ArrayData() = default;
+  ArrayMetaData(size_t size);
 };
+
 class Array {
  private:
-  Buffer buffer_;
+  Buffer *buffer_;
+  ArrayMetaData metaData_;
 
  public:
-  ArrayData data_;
-  Array();
+  Array(float value, size_t size);
   ~Array() = default;
-  template <typename T>
-  T* getPtr() {
-    return static_cast<T*>(data_.ptr_);
-  }
+  float *getPtr();
+  std::vector<int> shape();
+  int dim();
+  int length();
 };
-
-template <typename T>
-ArrayData::ArrayData(size_t size, std::vector<int> shape,
-                     std::vector<int> strides, Dtype dtype)
-    : ptr_(nullptr),
-      size_(size),
-      shape_(shape),
-      strides_(strides),
-      dtype_(dtype){};
