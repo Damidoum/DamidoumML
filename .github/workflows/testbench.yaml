@@ -79,7 +79,7 @@ jobs:
         run: brew install cppcheck
 
       - name: Run Cppcheck (C++ Linter)
-        run: cppcheck /
+        run: cppcheck damidoumML/
 
   build:
     runs-on: macos-latest
