@@ -9,7 +9,7 @@ Currently, I am developing on macOS, and the library is not yet accessible on ot
 1. Clone the repository
 2. Create a virtual environment using Python 3.10 or higher:
    ```bash
-   python3.12 -m venv .venv
+   python3.10 -m venv .venv
    ```
 3. Activate the virtual environment:
    ```bash
