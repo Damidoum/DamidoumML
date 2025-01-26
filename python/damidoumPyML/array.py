@@ -15,9 +15,9 @@ class Array(_core.Array):
         return f"array({self.to_list()})"
 
 
-def zeros(size: int) -> Array:
-    return Array(0, size)
+def zeros(shape: int | tuple[int]) -> Array:
+    return Array(0, shape)
 
 
-def ones(size: int) -> Array:
-    return Array(1, size)
+def ones(shape: int | tuple[int]) -> Array:
+    return Array(1, shape)
