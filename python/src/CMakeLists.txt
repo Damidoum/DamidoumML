@@ -6,5 +6,5 @@ find_package(pybind11 CONFIG REQUIRED)
 
 file(GLOB SOURCES "*.cpp")
 python_add_library(_core MODULE ${SOURCES})
-target_link_libraries(_core PRIVATE pybind11::headers damidoumMLCore)
+target_link_libraries(_core PRIVATE pybind11::headers damidoumMLCore damidoumMLUtils)
 install(TARGETS _core DESTINATION ${SKBUILD_PROJECT_NAME})

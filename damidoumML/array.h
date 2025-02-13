@@ -2,7 +2,6 @@
 #include <vector>
 
 #include "damidoumML/buffer.h"
-#include "damidoumML/types.h"
 
 struct ArrayMetaData {
  public:
@@ -12,15 +11,25 @@ struct ArrayMetaData {
   ArrayMetaData(std::vector<int> shape);
 };
 
+struct ArrayData {
+ public:
+  float *ptr_;
+  std::vector<int> strides_;
+  ArrayData();
+  ArrayData(float *ptr, std::vector<int> strides);
+  float *getPtr();
+};
+
 class Array {
  private:
   Buffer *buffer_;
   ArrayMetaData metaData_;
-  float *ptr_;
+  ArrayData data_;
 
  public:
   Array(float value, size_t size);
   Array(float value, std::vector<int> shape);
+  Array(std::vector<float> values);
   ~Array() = default;
 
   float *getPtr();
