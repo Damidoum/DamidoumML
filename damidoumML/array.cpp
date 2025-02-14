@@ -1,6 +1,5 @@
 #include "damidoumML/array.h"
 
-#include <iostream>
 #include <stdexcept>
 
 #include "damidoumML/utils/utils.h"

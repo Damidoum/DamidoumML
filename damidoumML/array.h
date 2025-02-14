@@ -29,7 +29,7 @@ class Array {
  public:
   Array(float value, size_t size);
   Array(float value, std::vector<int> shape);
-  Array(std::vector<float> values);
+  Array(std::vector<float> vec);
   ~Array() = default;
 
   float *getPtr();
