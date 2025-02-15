@@ -1,6 +1,6 @@
 #include "damidoumML/array.h"
 
-#include <stdexcept>
+#include <cassert>
 
 #include "damidoumML/utils/utils.h"
 
@@ -45,6 +45,18 @@ Array::Array(float value, std::vector<int> shape)
 
 Array::Array(std::vector<float> vec)
     : metaData_(ArrayMetaData(vec.size())), buffer_(new Buffer(vec.size())) {
+  std::vector<int> strides = compute_stride_from_shape(metaData_.shape_);
+  float *ptr = buffer_->getPtr();
+  data_ = ArrayData(ptr, strides);
+  size_t i = 0;
+  for (auto value : vec) {
+    ptr[i++] = value;
+  }
+}
+
+Array::Array(std::vector<float> vec, std::vector<int> shape)
+    : metaData_(ArrayMetaData(shape)), buffer_(new Buffer(vec.size())) {
+  assert(assert_size_compatible_with_shape(vec.size(), shape));
   std::vector<int> strides = compute_stride_from_shape(metaData_.shape_);
   float *ptr = buffer_->getPtr();
   data_ = ArrayData(ptr, strides);
