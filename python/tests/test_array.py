@@ -12,7 +12,7 @@ def test_get_item() -> None:
     length = 10
     array = daml.Array(-1, length)
     for i in range(length):
-        array[i] = -1
+        assert array[i] == -1
 
 
 def test_set_item() -> None:
@@ -37,6 +37,7 @@ def test_ones() -> None:
     for i in range(length):
         assert array[i] == 1
 
+
 def test_shape() -> None:
     array = daml.Array(5, [2, 3])
     assert array.shape == [2, 3]
@@ -49,7 +50,7 @@ def test_dim() -> None:
 
 def test_length() -> None:
     array = daml.Array(5, 10)
-    assert array.length == 10
+    assert len(array) == 10
 
 
 if __name__ == "__main__":
