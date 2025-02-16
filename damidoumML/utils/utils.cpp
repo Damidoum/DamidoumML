@@ -19,3 +19,15 @@ std::vector<int> compute_stride_from_shape(std::vector<int> shape) {
   std::reverse(strides.begin(), strides.end());
   return strides;
 }
+
+int compute_index_from_tuple(std::vector<int> indices, std::vector<int> strides,
+                             std::vector<int> shape) {
+  int index = 0;
+  for (int i = 0; i < indices.size(); i++) {
+    if (indices[i] >= shape[i]) {
+      throw std::invalid_argument("Index out of bound");
+    }
+    index += indices[i] * strides[i];
+  }
+  return index;
+}

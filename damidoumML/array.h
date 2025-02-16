@@ -25,6 +25,8 @@ class Array {
   Buffer *buffer_;
   ArrayMetaData metaData_;
   ArrayData data_;
+  void print_array_recursive(std::ostringstream &oss, float *data,
+                             std::vector<int> shape, size_t dim, int offset);
 
  public:
   Array(float value, size_t size);
@@ -38,7 +40,10 @@ class Array {
   size_t dim();
   size_t length();
 
+  std::string repr();
+
   float &operator[](size_t index);
+  float &operator[](std::vector<int> indices);
 };
 
 Array zeros(std::vector<int> shape);

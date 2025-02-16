@@ -4,7 +4,7 @@ import pytest
 
 def test_array_value_init():
     array = daml.Array(10, 14)
-    assert array.shape() == [14]
+    assert array.shape == [14]
     assert len(array) == 14
 
 

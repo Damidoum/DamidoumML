@@ -5,17 +5,21 @@ except ImportError as e:
 
 
 class Array(_core.Array):
-    def to_list(self) -> list[float]:
+    def to_list(self) -> list:
         """
         Convert an Array to a Python list of float
         """
-        values = []
-        for i in range(len(self)):
-            values.append(self[i])
-        return values
+        shape = self.shape
+        if len(shape) == 1:
+            return [self[i] for i in range(shape[0])]
+        if len(shape) == 2:
+            return [[self[i, j] for j in range(shape[1])] for i in range(shape[0])]
+        raise NotImplementedError(
+            "Array with more than 2 dimensions is not yet supported"
+        )
 
-    def __repr__(self) -> str:
-        return f"array({self.to_list()})"
+    def __iter__(self):
+        raise NotImplementedError("Array is not yet iterable")
 
 
 def zeros(shape: int | tuple[int]) -> Array:

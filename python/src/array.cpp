@@ -30,10 +30,21 @@ PYBIND11_MODULE(_core, m) {
       .def(py::init<float, size_t>())
       .def(py::init<float, std::vector<int>>())
       .def(py::init(&array_from_list))
-      .def("shape", &Array::shape, "Get the shape of the array")
-      .def("dim", &Array::dim, "Return the dim of the array")
       .def("__len__", &Array::length)
-      .def("__getitem__", &Array::operator[])
+      .def("__getitem__",
+           [](Array &self, int index) -> float & { return self[index]; })
+      .def("__getitem__",
+           [](Array &self, std::vector<int> indices) -> float & {
+             return self[indices];
+           })
       .def("__setitem__",
-           [](Array &self, int index, float value) { self[index] = value; });
+           [](Array &self, int index, float value) { self[index] = value; })
+      .def("__setitem__", [](Array &self, std::vector<int> indices,
+                             float value) { self[indices] = value; })
+      .def("__repr__", &Array::repr)
+      .def_property_readonly("shape", &Array::shape,
+                             "Get the shape of the array")
+      .def_property_readonly(
+          "dim", &Array::dim,
+          "Get the dim of the array. The dim correspond to the number of axis");
 }

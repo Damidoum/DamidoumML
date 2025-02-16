@@ -1,6 +1,8 @@
 #include "damidoumML/array.h"
 
 #include <cassert>
+#include <iomanip>
+#include <sstream>
 
 #include "damidoumML/utils/utils.h"
 
@@ -66,6 +68,45 @@ Array::Array(std::vector<float> vec, std::vector<int> shape)
   }
 }
 
+void Array::print_array_recursive(std::ostringstream &oss, float *data,
+                                  std::vector<int> shape, size_t dim,
+                                  int offset) {
+  const int max_elements_per_dim = 5;
+  if (dim == shape.size() - 1) {
+    oss << "[";
+    for (int i = 0; i < std::min(shape[dim], max_elements_per_dim); ++i) {
+      if (i > 0) oss << ", ";
+      oss << std::fixed << std::setprecision(2) << data[offset + i];
+    }
+    if (shape[dim] > max_elements_per_dim) {
+      oss << ", ...";
+    }
+    oss << "]";
+  } else {
+    oss << "[\n";
+    int stride = 1;
+    for (size_t i = dim + 1; i < shape.size(); ++i) {
+      stride *= shape[i];
+    }
+    for (int i = 0; i < std::min(shape[dim], max_elements_per_dim); ++i) {
+      if (i > 0) oss << ",\n";
+      print_array_recursive(oss, data, shape, dim + 1, offset + i * stride);
+    }
+    if (shape[dim] > max_elements_per_dim) {
+      oss << ",\n  ...";
+    }
+    oss << "\n]";
+  }
+}
+
+std::string Array::repr() {
+  std::ostringstream oss;
+  oss << "Array(";
+  print_array_recursive(oss, getPtr(), shape(), dim(), data_.strides_[0]);
+  oss << ")";
+  return oss.str();
+}
+
 /* ----------- Array getter ----------- */
 float *Array::getPtr() { return data_.ptr_; }
 std::vector<int> Array::shape() { return metaData_.shape_; }
@@ -76,6 +117,14 @@ float &Array::operator[](size_t index) {
   if (index > length()) {
     throw std::out_of_range("Index out of range");
   }
+  return getPtr()[index];
+}
+
+float &Array::operator[](std::vector<int> indices) {
+  if (indices.size() != dim()) {
+    throw std::invalid_argument("Invalid number of indices");
+  }
+  int index = compute_index_from_tuple(indices, data_.strides_, shape());
   return getPtr()[index];
 }
 
