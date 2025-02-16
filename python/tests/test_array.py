@@ -2,20 +2,20 @@ import damidoumPyML as daml
 import pytest
 
 
-def test_array_value_init():
+def test_array_value_init() -> None:
     array = daml.Array(10, 14)
     assert array.shape == [14]
     assert len(array) == 14
 
 
-def test_get_item():
+def test_get_item() -> None:
     length = 10
     array = daml.Array(-1, length)
     for i in range(length):
         array[i] = -1
 
 
-def test_set_item():
+def test_set_item() -> None:
     length = 10
     array = daml.Array(-1, length)
     for i in range(length):
@@ -24,14 +24,14 @@ def test_set_item():
         assert array[i] == i
 
 
-def test_zeros():
+def test_zeros() -> None:
     length = 10
     array = daml.zeros(10)
     for i in range(length):
         assert array[i] == 0
 
 
-def test_ones():
+def test_ones() -> None:
     length = 10
     array = daml.ones(10)
     for i in range(length):

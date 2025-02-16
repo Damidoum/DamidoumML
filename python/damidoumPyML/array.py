@@ -1,5 +1,5 @@
 try:
-    from . import _core
+    from . import _core  # type: ignore[attr-defined]
 except ImportError as e:
     raise ImportError("Failed to import _core module") from e
 

@@ -60,11 +60,14 @@ jobs:
       - name: Install ClangFormat
         run: brew install clang-format
 
-      - name: Run Black (Python Formatter)
-        run: black --check .
+      - name: Run Ruff Formatter (Python Formatter)
+        run: ruff check --fix .
 
-      - name: Run Flake8 (Python Linter)
-        run: flake8 --exclude=.venv,build .
+      - name: Run Ruff (Python Linter + Formatter)
+        run: ruff format  --check .
+
+      - name: Run MyPy (Python Type Checker)
+        run: mypy
 
       - name: Run ClangFormat (C++ Formatter)
         run: find damidoumML -type f \( -name "*.cpp" -o -name "*.h" \) -exec clang-format -i {} +
