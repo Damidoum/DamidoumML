@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        whith:
+        with:
           ssh-key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
 
       - name: Set up Python 3.10
