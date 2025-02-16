@@ -3,7 +3,6 @@ cfgv==3.4.0
 clang-format==19.1.7
 click==8.1.8
 cppcheck==1.4.7
--e git+ssh://git@github.com/Damidoum/DamidoumML.git@e87752575e0fe39ece2f449cb102afc06af9b1dd#egg=damidoumPyML
 distlib==0.3.9
 exceptiongroup==1.2.2
 filelock==3.17.0
