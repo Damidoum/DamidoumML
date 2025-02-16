@@ -67,7 +67,7 @@ jobs:
         run: ruff format  --check .
 
       - name: Run MyPy (Python Type Checker)
-        run: mypy
+        run: mypy .
 
       - name: Run ClangFormat (C++ Formatter)
         run: find damidoumML -type f \( -name "*.cpp" -o -name "*.h" \) -exec clang-format -i {} +
