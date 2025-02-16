@@ -1,6 +1,3 @@
-try:
-    from . import _core
-except ImportError as e:
-    raise ImportError(f"Failed to import _core module: {e}")
+from damidoumPyML.array import Array, ones, zeros
 
-array = _core.Array
+__all__ = ["Array", "zeros", "ones"]

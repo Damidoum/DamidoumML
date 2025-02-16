@@ -2,26 +2,56 @@ import damidoumPyML as daml
 import pytest
 
 
-def test_array_value_init():
-    array = daml.array(10, 14)
-    assert array.shape() == [14]
+def test_array_value_init() -> None:
+    array = daml.Array(10, 14)
+    assert array.shape == [14]
     assert len(array) == 14
 
 
-"""
-def test_zeros():
-    shape = [2, 2]
-    arr_zeros = daml.zeros(shape)
-    assert arr_zeros.shape == [2, 2]
-    assert arr_zeros.size == 4
+def test_get_item() -> None:
+    length = 10
+    array = daml.Array(-1, length)
+    for i in range(length):
+        assert array[i] == -1
 
 
-def test_ones():
-    shape = [3, 2]
-    arr_ones = daml.ones(shape)
-    assert arr_ones.shape == [3, 2]
-    assert arr_ones.size == 6
-"""
+def test_set_item() -> None:
+    length = 10
+    array = daml.Array(-1, length)
+    for i in range(length):
+        array[i] = i
+    for i in range(length):
+        assert array[i] == i
+
+
+def test_zeros() -> None:
+    length = 10
+    array = daml.zeros(10)
+    for i in range(length):
+        assert array[i] == 0
+
+
+def test_ones() -> None:
+    length = 10
+    array = daml.ones(10)
+    for i in range(length):
+        assert array[i] == 1
+
+
+def test_shape() -> None:
+    array = daml.Array(5, [2, 3])
+    assert array.shape == [2, 3]
+
+
+def test_dim() -> None:
+    array = daml.Array(5, [2, 3])
+    assert array.dim == 2
+
+
+def test_length() -> None:
+    array = daml.Array(5, 10)
+    assert len(array) == 10
+
 
 if __name__ == "__main__":
     pytest.main()
