@@ -37,6 +37,20 @@ def test_ones() -> None:
     for i in range(length):
         assert array[i] == 1
 
+def test_shape() -> None:
+    array = daml.Array(5, [2, 3])
+    assert array.shape == [2, 3]
+
+
+def test_dim() -> None:
+    array = daml.Array(5, [2, 3])
+    assert array.dim == 2
+
+
+def test_length() -> None:
+    array = daml.Array(5, 10)
+    assert array.length == 10
+
 
 if __name__ == "__main__":
     pytest.main()
